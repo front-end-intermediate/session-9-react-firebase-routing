@@ -1,0 +1,23 @@
+.pirate {
+  border: 1px solid #999;
+  margin: 0.25rem;
+}
+
+.pirate ul {
+  display: flex;
+  flex-direction: row;
+  list-style: none;
+  padding: 0.25rem;
+  margin-bottom: 0.5rem;
+}
+
+.pirate ul li {
+  flex: 1;
+}
+
+.pirate button {
+  padding: 0.15rem;
+  width: 24%;
+  font-size: 0.75rem;
+}
+

@@ -1,0 +1,19 @@
+body {
+  margin: 0;
+  padding: 0;
+  font-family: sans-serif;
+}
+
+h3 {
+  font-family: 'Trade Winds', cursive;
+}
+
+h4 {
+  font-family: 'Trade Winds', cursive;
+}
+
+.pirate-form {
+  margin: 0.5rem;
+  padding: 0.5rem;
+  border: 1px solid #999;
+}
