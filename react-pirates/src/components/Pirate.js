@@ -12,7 +12,7 @@ class Pirate extends Component {
       // <Router>
       <div className='pirate'>
       <ul>
-      <li><Link to={linkUrl}>{details.name}</Link></li>
+          <li><Link to={linkUrl} params={{ index: details.index }} >{details.name}</Link></li>
       <li>{details.weapon}</li>
           <li>{details.vessel}</li>
           

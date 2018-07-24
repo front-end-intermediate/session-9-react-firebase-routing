@@ -1,18 +1,5 @@
-// import React, { Component } from 'react';
-
-// class PirateDetail extends Component {
-  
-//   render() {
-//     return (
-//       <div className="pirate-detail">
-//         <h3>Pirate Detail</h3>
-//       </div>
-//       )
-//   }
-// }
-
-// export default PirateDetail;
 import React, { Component } from 'react';
+import * as querystring from 'query-string';
 
 class PirateDetail extends Component {
 
@@ -23,6 +10,7 @@ class PirateDetail extends Component {
   }
 
   render() {
+    // const qsValues = querystring.parse(this.props.location.search);
     return (
       <div className="pirate-detail">
         <h2>Pirate Detail</h2>
