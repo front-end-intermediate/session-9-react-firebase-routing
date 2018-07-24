@@ -221,7 +221,7 @@ Create a new Pirate Detail component:
 
 ```js
 import React, { Component } from 'react';
-import base from '../base';
+// import base from '../base';
 
 class PirateDetail extends Component {
   
@@ -248,16 +248,16 @@ return (
     <Header />
     <Route path='/' component={PirateDetail} />
     ...
-    </div>
-    </Router>
+  </div>
+  </Router>
 );
 ```
 
-Remove the hash by using BrowserRouter.
+Note the URL string in the browser. Remove the hash by using BrowserRouter.
 
 `import { BrowserRouter as Router, Route } from 'react-router-dom';`
 
-(Clear out any hashes from the location bar.)
+(Remove out any hashes from the location bar.)
 
 Create a second route:
 
@@ -274,7 +274,9 @@ We can prevent this by using `exact`:
 
 But we will use another method - `Switch`:
 
-`import Switch from '../node_modules/react-router-dom/Switch';`
+<!-- `import Switch from '../node_modules/react-router-dom/Switch';` -->
+
+`import { BrowserRouter as Router, Route, Switch } from 'react-router-dom';`
 
 ```js
 <Switch>
@@ -331,7 +333,8 @@ Let use a parameterized path to show the Detail component.
 
 Test with `http://localhost:3000/detail/foo`.
 
-Edit the Pirate component to include links. Make `Link` available to the component, create a `linkUrl` variable and use it to create a `link` on the name property.
+Edit the Pirate component to include links. 
+Make `Link` available to the component, create a `linkUrl` variable and use it to create a `link` on the name property.
 
 `Pirate.js`:
 
@@ -420,6 +423,18 @@ renderPirate(key){
 
 export default PirateDetail;
 
+```
+
+For images use the [public folder](https://github.com/facebook/create-react-app/blob/master/packages/react-scripts/template/README.md#using-the-public-folder)
+
+```js
+  return (
+  <div key={key}>
+    <h3>{pirate.name}</h3>
+    <img src={process.env.PUBLIC_URL + '/img/' + pirate.image} alt="pirate" />
+    <p>{pirate.desc}</p>
+  </div>
+  )
 ```
 
 ## End
