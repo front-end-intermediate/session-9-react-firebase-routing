@@ -33,7 +33,7 @@ class App extends Component {
           <NavBar />
           <Switch>
   <Route path='/detail/:id'
-              render={() => <PirateDetail pirates={this.state.pirates} />}
+              render={() => <PirateDetail pirates={this.state.pirates} pathism={this.props.location} />}
   />
 </Switch>
 

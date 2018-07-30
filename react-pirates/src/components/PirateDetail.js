@@ -7,9 +7,11 @@ class PirateDetail extends Component {
     super(props)
     this.state = {}
     this.renderPirate = this.renderPirate.bind(this);
+    // this.location = this.location
   }
 
   render() {
+    // console.log(this.location)
     // const qsValues = querystring.parse(this.props.location.search);
     return (
       <div className="pirate-detail">
