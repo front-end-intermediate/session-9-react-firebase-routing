@@ -214,6 +214,9 @@ Test by logging in and out. Note the user in Firebase. This can be deleted if yo
 
 ```js
 import { HashRouter as Router, Route } from 'react-router-dom';
+```
+
+```js
 import PirateDetail from './components/PirateDetail.js';
 ```
 
@@ -221,7 +224,6 @@ Create a new Pirate Detail component:
 
 ```js
 import React, { Component } from 'react';
-// import base from '../base';
 
 class PirateDetail extends Component {
   
@@ -319,13 +321,34 @@ And insert it into `App.js`:
 </Switch>
 ```
 
-Optional: style the NavBar.
+Style the NavBar.
 
-Let use a parameterized path to show the Detail component.
+`navbar.css`:
+
+```css
+nav {
+  background: #007eb6;
+  padding: 0.25rem;
+}
+
+nav a {
+  padding: 0.5rem;
+  color: white;
+  text-decoration: none;
+}
+```
+
+Import it into `NavBar.js`:
+
+```js
+import './navbar.css';
+```
+
+Let use a parameterized path to show the Detail component in `App.js`:
 
 ```js
 <Switch>
-  <Route path='/detail/:id' component={PirateDetail}  /> 
+  <Route path='/detail/:id' component={PirateDetail}  />
   {/* exact={true} */}
   {/* <Route path='/foo' component={PirateDetail} /> */}
 </Switch>
@@ -333,8 +356,11 @@ Let use a parameterized path to show the Detail component.
 
 Test with `http://localhost:3000/detail/foo`.
 
-Edit the Pirate component to include links. 
-Make `Link` available to the component, create a `linkUrl` variable and use it to create a `link` on the name property.
+Edit the Pirate component to use links.
+
+`import { Link } from 'react-router-dom';`
+
+Create a `linkUrl` variable and use it to create a `link` on the name property.
 
 `Pirate.js`:
 
@@ -346,7 +372,9 @@ import { Link } from 'react-router-dom';
 class Pirate extends Component {
   render(){
     const { details } = this.props;
+    console.log(details)
     let linkUrl = `/detail/${this.props.index}`;
+    console.log(linkUrl)
     return (
       <div className='pirate'>
       <ul>
@@ -366,9 +394,9 @@ class Pirate extends Component {
 export default Pirate;
 ```
 
-Optional: style the links.
+Style the links.
 
-Test the links. Note that the Pirate Detail shows.
+Test the links. Note that the Pirate Detail hides/shows when navigating between the Home and `linkUrls`.
 
 Pass the pirates into the Detail component.
 
@@ -382,11 +410,57 @@ Pass the pirates into the Detail component.
 </Switch>
 ```
 
-Note that the Pirates are now available to the Detail component as props.
+Inspect using the React developer tool and note that the Pirates are now available to the Detail component as props.
 
 Edit Pirate Detail to show some data.
 
+Since we will use a method to render the pirates let's create a constructor and use the `Object.keys` method we used earlier in `App.js` to render the `Pirate` component.
+
 `PirateDetail.js`:
+
+```js
+import React, { Component } from 'react';
+
+
+class PirateDetail extends Component {
+
+  constructor(props){
+    super(props)
+  }
+  
+  render() {
+    return (
+      <div className="pirate-detail">
+        <h3>Pirate Detail</h3>
+
+        {Object.keys(this.props.pirates).map(this.renderPirate)}
+
+      </div>
+      )
+  }
+}
+
+export default PirateDetail;
+```
+
+Bind the function:
+
+`this.renderPirate = this.renderPirate.bind(this);`
+
+And create a stub for it:
+
+```js
+renderPirate(key){
+  const pirate = this.props.pirates[key]
+  return (
+  <div key={key}>
+    <p>{key}</p>
+  </div>
+  )
+}
+```
+
+The final function:
 
 ```js
 import React, { Component } from 'react';
@@ -395,7 +469,6 @@ class PirateDetail extends Component {
 
   constructor(props){
     super(props)
-    this.state = {}
     this.renderPirate = this.renderPirate.bind(this);
   }
 
@@ -422,10 +495,13 @@ renderPirate(key){
 }
 
 export default PirateDetail;
-
 ```
 
-For images use the [public folder](https://github.com/facebook/create-react-app/blob/master/packages/react-scripts/template/README.md#using-the-public-folder)
+Note the `key={key}` on the iterable. Remove it and read the warning.
+
+### Adding Pirate Details
+
+For images use the [public folder](https://github.com/facebook/create-react-app/blob/master/packages/react-scripts/template/README.md#using-the-public-folder). Copy the `reference/assets/img` directory to the public folder.
 
 ```js
   return (
@@ -437,7 +513,33 @@ For images use the [public folder](https://github.com/facebook/create-react-app/
   )
 ```
 
-Try 
+Examine the code, correct the file name for the svg and add some formatting.
+
+Let's use React's inline styles for a change.
+
+```js
+const divStyle = {
+  display: 'flex',
+  border: '3px solid #bada55',
+  padding: '0.5rem'
+}
+```
+
+and
+
+```jsx
+  <div style={divStyle} key={key}>
+    <h3>{pirate.name}</h3>
+    <img src={process.env.PUBLIC_URL + '/img/' + pirate.image} alt="pirate" />
+    <p>{pirate.desc}</p>
+  </div>
+```
+
+See [this summary](https://codeburst.io/4-four-ways-to-style-react-components-ac6f323da822) of the available methods for styling React components.
+
+### .map vs .filter
+
+Try this in `PirateDetail.js`:
 
 ```js
     return (
@@ -451,7 +553,22 @@ Try
       )
 ```
 
-Pirate.js
+```js
+  singlePirate(key) {
+    const pirate = this.props.pirates[key]
+    console.log(pirate)
+  }
+```
+
+Don't forget to bind
+
+`this.singlePirate = this.singlePirate.bind(this);`
+
+We need a match between the pirate on scope and the single pirate wee want to display.
+
+We could try URL parameters.
+
+`Pirate.js`:
 
 ```js
 class Pirate extends Component {
@@ -470,7 +587,6 @@ class Pirate extends Component {
               X
           </button>
         </li>
-          
 
       </ul>
       </div>
@@ -483,28 +599,32 @@ class Pirate extends Component {
 ```js
 singlePirate(key) {
   const pirate = this.props.pirates[key]
-  // console.log(pirate)
-  console.log('Pirate name: ' + pirate.name)
-  const uRl = new URLSearchParams(window.location.search.substring(1))
-  var name = uRl.get("name");
-  console.log('Name: ' + name)
+  console.log(pirate)
+  // console.log('Pirate name: ' + pirate.name)
+  // const uRl = new URLSearchParams(window.location.search.substring(1))
+  // var name = uRl.get("name");
+  // console.log('Name: ' + name)
 
-  console.log('Key: ' + this.props.pirates[key].name)
-  return this.props.pirates[key].name === name;
+  // console.log('Key: ' + this.props.pirates[key].name)
+  // return this.props.pirates[key].name === name;
 }
 ```
 
-Don't forget to bind
+But `URLSearchParams` has limited support and we don't want to install additional node modules to overcome its limitations.
 
-`this.singlePirate = this.singlePirate.bind(this);`
+Pass props into the component.
 
-`URLSearchParams` has limited support.
-
-Pass props into the component
+`App.js`:
 
 ```js
-<Route path='/detail/:id' render={(props) => <PirateDetail {...props} pirates={this.state.pirates} />}
+<Route path='/detail/:id'
+    render={(props) => <PirateDetail {...props} pirates={this.state.pirates}  />}
+/>
 ```
+
+Inspect the component to see the new props. Note match.
+
+`PirateDetail.js`:
 
 ```js
   render() {
@@ -526,4 +646,3 @@ Pass props into the component
 ```
 
 ## End
-
