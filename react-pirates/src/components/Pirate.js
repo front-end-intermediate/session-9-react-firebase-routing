@@ -7,26 +7,24 @@ import { Link } from 'react-router-dom';
 class Pirate extends Component {
   render(){
     const { details } = this.props;
-    let linkUrl = `/detail/${this.props.index}`;
+    let linkUrl = `/detail/${this.props.index}?name=${details.name}`;
     return (
-      // <Router>
+
       <div className='pirate'>
       <ul>
-          <li><Link to={linkUrl} params={{ index: details.index }} >{details.name}</Link></li>
-      <li>{details.weapon}</li>
-          <li>{details.vessel}</li>
-          
-
-      <li>
+        <li><Link to={linkUrl} params={{ index: details.index }} >{details.name}</Link></li>
+        <li>{details.weapon}</li>
+        <li>{details.vessel}</li>
+        <li>
          <button onClick={() => this.props.removePirate(this.props.index)}>
               X
           </button>
-          </li>
+        </li>
           
 
       </ul>
       </div>
-      // </Router>
+
       )
   }
 }

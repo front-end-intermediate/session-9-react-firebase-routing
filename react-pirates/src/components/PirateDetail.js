@@ -7,6 +7,7 @@ class PirateDetail extends Component {
     super(props)
     this.state = {}
     this.renderPirate = this.renderPirate.bind(this);
+    this.singlePirate = this.singlePirate.bind(this);
     // this.location = this.location
   }
 
@@ -17,11 +18,24 @@ class PirateDetail extends Component {
       <div className="pirate-detail">
         <h2>Pirate Detail</h2>
 
-        {Object.keys(this.props.pirates).map(this.renderPirate)}
+        {/* {Object.keys(this.props.pirates).map(this.renderPirate)} */}
+        {Object.keys(this.props.pirates).filter(this.singlePirate)}
 
       </div>
       )
   }
+
+singlePirate(key) {
+  const pirate = this.props.pirates[key]
+  // console.log(pirate)
+  console.log('Pirate name: ' + pirate.name)
+  const uRl = new URLSearchParams(window.location.search.substring(1))
+  var name = uRl.get("name");
+  console.log('Name: ' + name)
+
+  console.log('Key: ' + this.props.pirates[key].name)
+  return this.props.pirates[key].name === name;
+}
 
 renderPirate(key){
   const pirate = this.props.pirates[key]
