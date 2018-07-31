@@ -527,4 +527,3 @@ Pass props into the component
 
 ## End
 
-Use another Array method (`find` or `filter`) on the render method's return value to display additional details for a _single_ Pirate.
