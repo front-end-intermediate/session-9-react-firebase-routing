@@ -216,11 +216,7 @@ Test by logging in and out. Note the user in Firebase. This can be deleted if yo
 import { HashRouter as Router, Route } from 'react-router-dom';
 ```
 
-```js
-import PirateDetail from './components/PirateDetail.js';
-```
-
-Create a new Pirate Detail component:
+Create a new PirateDetail component in components:
 
 ```js
 import React, { Component } from 'react';
@@ -237,6 +233,12 @@ class PirateDetail extends Component {
 }
 
 export default PirateDetail;
+```
+
+And import it:
+
+```js
+import PirateDetail from './components/PirateDetail.js';
 ```
 
 Create our first route.
@@ -276,8 +278,6 @@ We can prevent this by using `exact`:
 
 But we will use another method - `Switch`:
 
-<!-- `import Switch from '../node_modules/react-router-dom/Switch';` -->
-
 `import { BrowserRouter as Router, Route, Switch } from 'react-router-dom';`
 
 ```js
@@ -307,6 +307,8 @@ class NavBar extends Component {
 export default NavBar;
 ```
 
+Note the `Link` import.
+
 Import it into `App.js`:
 
 `import NavBar from './components/NavBar';`
@@ -321,9 +323,7 @@ And insert it into `App.js`:
 </Switch>
 ```
 
-Style the NavBar.
-
-`navbar.css`:
+Style the NavBar in a new file `navbar.css`:
 
 ```css
 nav {
@@ -354,15 +354,35 @@ Let use a parameterized path to show the Detail component in `App.js`:
 </Switch>
 ```
 
-Test with `http://localhost:3000/detail/foo`.
+Test with `http://localhost:3000/detail/foo`. 
 
-Edit the Pirate component to use links.
+In `NavBar.js`:
+
+```js
+<nav>
+  <Link to='/' className="navLink">Home</Link>
+  <Link to='detail/foo' className="navLink">Foo</Link>
+</nav>
+```
+
+### Adding Links to Pirates
+
+Edit the `Pirate` component to use links:
 
 `import { Link } from 'react-router-dom';`
 
 Create a `linkUrl` variable and use it to create a `link` on the name property.
 
-`Pirate.js`:
+```js
+class Pirate extends Component {
+  render(){
+    const { details } = this.props;
+    console.log(details)
+    let linkUrl = `/detail/${this.props.index}`;
+    console.log(linkUrl)
+```
+
+Add the LinkUrl - `<li><Link to={linkUrl}>{details.name}</Link></li>` - to the name in `Pirate.js`:
 
 ```js
 import React, { Component } from 'react';
@@ -394,11 +414,17 @@ class Pirate extends Component {
 export default Pirate;
 ```
 
-Style the links.
+Style the links:
+
+```css
+a {
+  text-decoration: none;
+}
+```
 
 Test the links. Note that the Pirate Detail hides/shows when navigating between the Home and `linkUrls`.
 
-Pass the pirates into the Detail component.
+Pass the pirates into the Detail component (See [this article](https://tylermcginnis.com/react-router-pass-props-to-components/) by Tyler McGinnis.)
 
 `App.js`:
 
@@ -412,15 +438,14 @@ Pass the pirates into the Detail component.
 
 Inspect using the React developer tool and note that the Pirates are now available to the Detail component as props.
 
-Edit Pirate Detail to show some data.
+Edit `PirateDetail` to show some data.
 
-Since we will use a method to render the pirates let's create a constructor and use the `Object.keys` method we used earlier in `App.js` to render the `Pirate` component.
+Since we will use a method to render the pirates let's create a constructor and use the `Object.keys` technique we used earlier in `App.js` to render the `Pirate` component.
 
 `PirateDetail.js`:
 
 ```js
 import React, { Component } from 'react';
-
 
 class PirateDetail extends Component {
 
@@ -460,7 +485,7 @@ renderPirate(key){
 }
 ```
 
-The final function:
+The current component:
 
 ```js
 import React, { Component } from 'react';
@@ -517,6 +542,8 @@ Examine the code, correct the file name for the svg and add some formatting.
 
 Let's use React's inline styles for a change.
 
+In `PirateDetail`s renderPirate method:
+
 ```js
 const divStyle = {
   display: 'flex',
@@ -525,7 +552,7 @@ const divStyle = {
 }
 ```
 
-and
+and apply `<div style={divStyle} key={key}>` to the div:
 
 ```jsx
   <div style={divStyle} key={key}>
@@ -554,10 +581,10 @@ Try this in `PirateDetail.js`:
 ```
 
 ```js
-  singlePirate(key) {
-    const pirate = this.props.pirates[key]
-    console.log(pirate)
-  }
+singlePirate(key) {
+  const pirate = this.props.pirates[key]
+  console.log(pirate)
+}
 ```
 
 Don't forget to bind
@@ -612,7 +639,9 @@ singlePirate(key) {
 
 But `URLSearchParams` has limited support and we don't want to install additional node modules to overcome its limitations.
 
-Pass props into the component.
+Examine the `Route` component and not the props related to navigation.
+
+Pass those props into the component.
 
 `App.js`:
 
