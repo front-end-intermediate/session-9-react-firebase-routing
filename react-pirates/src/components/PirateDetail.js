@@ -8,21 +8,30 @@ class PirateDetail extends Component {
     this.state = {}
     this.renderPirate = this.renderPirate.bind(this);
     this.singlePirate = this.singlePirate.bind(this);
-    // this.location = this.location
   }
 
   render() {
-    // console.log(this.location)
     // const qsValues = querystring.parse(this.props.location.search);
+    // console.log(qsValues.name)
+    const pirates = this.props.pirates;
+    console.log('keys: ' + Object.keys(pirates))
+    console.log('match id: ' + this.props.match.params.id)
+
     return (
       <div className="pirate-detail">
         <h2>Pirate Detail</h2>
-
-        {/* {Object.keys(this.props.pirates).map(this.renderPirate)} */}
-        {Object.keys(this.props.pirates).filter(this.singlePirate)}
-
+        {Object.keys(this.props.pirates).filter(
+          pirate => {
+            return pirate === this.props.match.params.id
+          }
+        ).map(this.renderPirate)}
       </div>
       )
+  }
+
+  onePirate(pname) {
+    // const qsValues = querystring.parse(this.props.location.search);
+    console.log(pname)
   }
 
 singlePirate(key) {
@@ -43,7 +52,7 @@ renderPirate(key){
   return (
   <div key={key}>
     <h3>{pirate.name}</h3>
-    <img src={process.env.PUBLIC_URL + '/img/' + pirate.image} alt="pirate" />
+    {/* <img src={process.env.PUBLIC_URL + '/img/' + pirate.image} alt="pirate" /> */}
     <p>{pirate.desc}</p>
   </div>
   )

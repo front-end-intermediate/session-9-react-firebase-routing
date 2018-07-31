@@ -494,12 +494,35 @@ singlePirate(key) {
 }
 ```
 
+Don't forget to bind
+
+`this.singlePirate = this.singlePirate.bind(this);`
+
 `URLSearchParams` has limited support.
 
 Pass props into the component
 
 ```js
 <Route path='/detail/:id' render={(props) => <PirateDetail {...props} pirates={this.state.pirates} />}
+```
+
+```js
+  render() {
+    const pirates = this.props.pirates;
+    console.log('keys: ' + Object.keys(pirates))
+    console.log('match id: ' + this.props.match.params.id)
+
+    return (
+      <div className="pirate-detail">
+        <h2>Pirate Detail</h2>
+        {Object.keys(this.props.pirates).filter(
+          pirate => {
+            return pirate === this.props.match.params.id
+          }
+        ).map(this.renderPirate)}
+      </div>
+      )
+  }
 ```
 
 ## End

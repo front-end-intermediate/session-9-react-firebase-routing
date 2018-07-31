@@ -7,7 +7,7 @@ import { Link } from 'react-router-dom';
 class Pirate extends Component {
   render(){
     const { details } = this.props;
-    let linkUrl = `/detail/${this.props.index}?name=${details.name}`;
+    let linkUrl = `/detail/${this.props.index}`;
     return (
 
       <div className='pirate'>
