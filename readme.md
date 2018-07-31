@@ -675,3 +675,8 @@ Inspect the component to see the new props. Note match.
 ```
 
 ## End
+
+[session-8-ang2-recipes](https://github.com/front-end-intermediate/session-8-ang2-recipes#angular-2---modules-components-and-templates)
+
+* typescript
+* Modules Components Template
