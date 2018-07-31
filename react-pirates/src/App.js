@@ -1,9 +1,12 @@
 import React, { Component } from 'react';
+import { BrowserRouter as Router, Route, Switch } from 'react-router-dom';
 
 import base from './base';
 import Header from './components/Header';
 import Pirate from './components/Pirate';
 import PirateForm from './components/PirateForm';
+import PirateDetail from './components/PirateDetail';
+import NavBar from './components/NavBar';
 
 import piratesFile from './data/sample-pirates-object';
 
@@ -22,8 +25,18 @@ class App extends Component {
 
   render() {
     return (
+      <Router>
       <div className="App">
-        <Header headerTitle="Pirates!" />
+          <Header headerTitle="Pirates!" />
+
+          <NavBar />
+
+          <Switch>
+            {/* <Route path='/detail/:id' component={PirateDetail}  /> */}
+            <Route path='/detail/:id' 
+              render = { () => <PirateDetail pirates={this.state.pirates} />} />
+            <Route path='/foo' component={PirateDetail}  />
+          </Switch>  
 
           {
             Object.keys(this.state.pirates)
@@ -41,7 +54,8 @@ class App extends Component {
           addPirate={this.addPirate}
           loadSamples={this.loadSamples}
         />
-      </div>
+        </div>
+        </Router>
     );
   }
 

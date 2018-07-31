@@ -1,0 +1,32 @@
+import React, { Component } from 'react';
+
+class PirateDetail extends Component {
+
+  constructor(props){
+    super(props);
+    this.renderPirate = this.renderPirate.bind(this);
+  }
+  
+  render() {
+    return (
+      <div className="pirate-detail">
+        <h3>Pirate Detail</h3>
+
+        {Object.keys(this.props.pirates).map(this.renderPirate)}
+
+      </div>
+      )
+  }
+
+  renderPirate(key){
+    const pirate = this.props.pirates[key]
+    return (
+    <div key={key}>
+      <p>{key}</p>
+    </div>
+    )
+  }
+  
+}
+
+export default PirateDetail;
