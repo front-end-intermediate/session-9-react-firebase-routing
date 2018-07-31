@@ -437,6 +437,93 @@ For images use the [public folder](https://github.com/facebook/create-react-app/
   )
 ```
 
+Try 
+
+```js
+    return (
+      <div className="pirate-detail">
+        <h2>Pirate Detail</h2>
+
+        {/* {Object.keys(this.props.pirates).map(this.renderPirate)} */}
+        {Object.keys(this.props.pirates).filter(this.singlePirate)}
+
+      </div>
+      )
+```
+
+Pirate.js
+
+```js
+class Pirate extends Component {
+  render(){
+    const { details } = this.props;
+    let linkUrl = `/detail/${this.props.index}?name=${details.name}`;
+    return (
+
+      <div className='pirate'>
+      <ul>
+        <li><Link to={linkUrl} params={{ index: details.index }} >{details.name}</Link></li>
+        <li>{details.weapon}</li>
+        <li>{details.vessel}</li>
+        <li>
+         <button onClick={() => this.props.removePirate(this.props.index)}>
+              X
+          </button>
+        </li>
+          
+
+      </ul>
+      </div>
+
+      )
+  }
+}
+```
+
+```js
+singlePirate(key) {
+  const pirate = this.props.pirates[key]
+  // console.log(pirate)
+  console.log('Pirate name: ' + pirate.name)
+  const uRl = new URLSearchParams(window.location.search.substring(1))
+  var name = uRl.get("name");
+  console.log('Name: ' + name)
+
+  console.log('Key: ' + this.props.pirates[key].name)
+  return this.props.pirates[key].name === name;
+}
+```
+
+Don't forget to bind
+
+`this.singlePirate = this.singlePirate.bind(this);`
+
+`URLSearchParams` has limited support.
+
+Pass props into the component
+
+```js
+<Route path='/detail/:id' render={(props) => <PirateDetail {...props} pirates={this.state.pirates} />}
+```
+
+```js
+  render() {
+    const pirates = this.props.pirates;
+    console.log('keys: ' + Object.keys(pirates))
+    console.log('match id: ' + this.props.match.params.id)
+
+    return (
+      <div className="pirate-detail">
+        <h2>Pirate Detail</h2>
+        {Object.keys(this.props.pirates).filter(
+          pirate => {
+            return pirate === this.props.match.params.id
+          }
+        ).map(this.renderPirate)}
+      </div>
+      )
+  }
+```
+
 ## End
 
-Use another Array method (`find` or `filter`) on the render method's return value to display additional details for a _single_ Pirate.
