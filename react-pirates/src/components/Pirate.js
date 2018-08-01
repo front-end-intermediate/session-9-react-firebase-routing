@@ -5,7 +5,9 @@ import '../assets/css/Pirate.css';
 class Pirate extends Component {
   render(){
     const { details } = this.props;
-    const linkUrl = `/detail/${this.props.index}`;
+    // const linkUrl = `/detail/${this.props.index}`;
+    let linkUrl = `/detail/${this.props.index}?name=${details.name}`;
+
     // console.log(linkUrl)
     return (
       <div className='pirate'>

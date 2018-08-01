@@ -11,7 +11,7 @@ import NavBar from './components/NavBar';
 import piratesFile from './data/sample-pirates-object';
 
 class App extends Component {
-
+  
   constructor() {
     super();
     this.addPirate = this.addPirate.bind(this);
@@ -22,43 +22,49 @@ class App extends Component {
       pirates: {}
     }
   }
-
+  
   render() {
     return (
       <Router>
       <div className="App">
-          <Header headerTitle="Pirates!" />
-
-          <NavBar />
-
-          <Switch>
-            {/* <Route path='/detail/:id' component={PirateDetail}  /> */}
-            <Route path='/detail/:id' 
-              render = { () => <PirateDetail pirates={this.state.pirates} />} />
-            <Route path='/foo' component={PirateDetail}  />
-          </Switch>  
-
-          {
-            Object.keys(this.state.pirates)
-              .map( key => <Pirate
-                key={key}
-                index={key}
-                details={this.state.pirates[key]}
-                removePirate = {this.removePirate}
-              />)
-          }
-
-        <PirateForm
-          pirates={this.state.pirates}
-          updatePirate={this.updatePirate}
-          addPirate={this.addPirate}
-          loadSamples={this.loadSamples}
-        />
-        </div>
-        </Router>
+      <Header headerTitle="Pirates!" />
+      
+      <NavBar />
+      
+      <Switch>
+      
+      {/* <Route path='/detail/:id' 
+    render={() => <PirateDetail pirates={this.state.pirates} />} /> */}
+    
+    <Route path='/detail/:id'
+    render={(props) => <PirateDetail {...props} pirates={this.state.pirates}  />}
+    />
+    
+    <Route path='/foo' component={PirateDetail} />
+    
+    </Switch>  
+    
+    {
+      Object.keys(this.state.pirates)
+      .map( key => <Pirate
+        key={key}
+        index={key}
+        details={this.state.pirates[key]}
+        removePirate = {this.removePirate}
+        />)
+      }
+      
+      <PirateForm
+      pirates={this.state.pirates}
+      updatePirate={this.updatePirate}
+      addPirate={this.addPirate}
+      loadSamples={this.loadSamples}
+      />
+      </div>
+      </Router>
     );
   }
-
+  
   addPirate(pirate) {
     //take a copy of the current state and put it into pirates var
     const pirates = {...this.state.pirates}
@@ -70,35 +76,35 @@ class App extends Component {
     //set state pirates with var pirates
     this.setState({ pirates: pirates })
   }
-
+  
   loadSamples() {
     this.setState({pirates: piratesFile})
   }
-
+  
   removePirate(key) {
     const pirates = { ...this.state.pirates }
     // delete pirates[key]
     pirates[key] = null;
     this.setState({pirates})
   }
-
+  
   updatePirate(key, updatedPirate) {
     const pirates = { ...this.state.pirates }
     pirates[key] = updatedPirate;
     this.setState({ pirates });
   }
-
+  
   componentWillMount(){
     this.ref = base.syncState(`pirates`, {
       context: this,
       state: 'pirates'
     })
   }
-
+  
   componentWillUmount(){
     base.removeBinding(this.ref)
   }
-
+  
 }
 
 export default App;
